@@ -1,0 +1,11 @@
+---
+
+# - hosts: scheduler
+#   tasks:
+#     - name: Run dask scheduler
+#       shell: nohup dask-scheduler > log_scheduler.out 2>&1 &
+
+- hosts: all
+  tasks:
+    - name: Run dask worker
+      shell: PYTHONUNBUFFERED=1 DEVICE_NAME="{{device_name}}" BITSTREAM="{{bitstream_path}}" nohup "{{dask_worker_binary}}" "{{scheduler_ip}}" --nthreads 1 > "{{worker_logs_path}}" 2>&1 &

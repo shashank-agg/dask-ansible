@@ -1,0 +1,13 @@
+---
+
+- hosts: all
+  tasks:
+    - name: Get the PID of running dask workers
+      ignore_errors: yes
+      shell: "ps -few | grep dask-worker | awk '{print $2}'"
+      register: running_processes
+
+    - name: Kill running processes
+      ignore_errors: yes
+      shell: "kill {{ item }}"
+      with_items: "{{ running_processes.stdout_lines }}"

@@ -1,0 +1,9 @@
+---
+
+- hosts: workers
+  tasks:
+    - name: Install dask
+      pip:
+        name: 
+          - dask
+          - distributed

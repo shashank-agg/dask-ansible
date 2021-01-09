@@ -1,0 +1,38 @@
+[all:vars]
+ansible_connection=ssh
+# Username with which to ssh into the nodes
+ansible_user=ubuntu
+# Keyfile path for SSH
+ansible_ssh_private_key_file=/Users/shashank/Downloads/labeller-keypairpem.pem
+# Scheduler IP (scheduler has to be run manually)
+scheduler_ip=tcp://172.31.36.145:8786
+
+
+# Group nodes. Add node-specfic args (such as `device_name`) here.
+[worker_group_1]
+alveo3a.ethz.ch device_name=xilinx_u250_xdma_201830_1
+alveo3b.ethz.ch device_name=xilinx_u280_xdma_201830_2
+alveo3c.ethz.ch device_name=xilinx_u280_xdma_201830_2
+
+# Common args for the above nodes
+[worker_group_1:vars]
+# Path to the dask-worker binary (depends on how you installed dask, use `which dask-worker` on the worker node to get this value)
+dask_worker_binary=/home/ubuntu/.local/bin/dask-worker
+# Path where the worker logs are written to on the worker node
+worker_logs_path=/home/ubuntu/worker_log.txt
+# Any env variables to pass to the workers. For example the path of the bitstream
+bitstream_path=/home/ubuntu/a.xclbin
+
+
+
+# Next group.
+[worker_group_2]
+alveo4a.ethz.ch device_name=xilinx_u250_xdma_201830_1
+alveo4b.ethz.ch device_name=xilinx_u280_xdma_201830_1
+alveo4c.ethz.ch device_name=xilinx_u280_xdma_201830_1
+
+# worker_group_2's args
+[worker_group_2:vars]
+dask_worker_binary=/home/ubuntu/.local/bin/dask-worker
+worker_logs_path=/home/ubuntu/worker_log.txt
+bitstream_path=/home/ubuntu/a.xclbin
